@@ -22,10 +22,7 @@ exports.register = (server, options, next) => {
   server.route({
     method: 'POST',
     path: '/scanner',
-    handler: (request, reply) => {
-      console.log(request.payload.file);
-      translateImage(request.payload.file, reply);
-    }
+    handler: (request, reply) => translateImage(request.payload.file, reply)
   });
 
   next();
