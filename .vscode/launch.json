@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "node2",
+            "request": "launch",
+            "program": "${workspaceRoot}/server/index.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "internalConsole",
+            "sourceMaps": false,
+            "outFiles": [],
+            "port": 5858
+        }
+    ]
+}
