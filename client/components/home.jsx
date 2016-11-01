@@ -7,7 +7,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      words: []
+      lines: [],
+      recognitionProgress: 0
     };
 
     this.handleFileProcessing = this.handleFileProcessing.bind(this);
@@ -19,37 +20,48 @@ class Home extends React.Component {
       const formData = new FormData();
       formData.append('file', files[0]);
       Tesseract.recognize(files[0])
-        .progress((message) => console.log(message))
+        .progress((message) => {
+          if (message.status === 'recognizing text') {
+            this.setState({
+              recognitionProgress: message.progress
+            });
+          }
+        })
         .then((result) => {
-          const wordMap = result.words.map((word) => {
+          const lines = result.lines.map((line) => {
+            const prices = line.words.filter((word) => !isNaN(Number(word.text)));
+            console.log(prices);
             return {
-              text: word.text,
-              choices: word.choices,
-              confidence: word.confidence,
-              baseline: word.baseline,
-              bbox: word.bbox
+              text: line.text,
+              choices: line.choices,
+              confidence: line.confidence,
+              baseline: line.baseline,
+              bbox: line.bbox
             };
           });
           this.setState({
-            words: wordMap
+            lines
           });
         });
     }
   }
 
   render() {
-    const props = this.props;
-    const listOfWords = this.state.words.map((word) => {
-      return <li>{word.text}</li>;
+    const listOfLines = this.state.lines.map((line, idx) => {
+      return <li key={`line-${idx}`}>{line.text}</li>;
     });
     return (
       <div>
         <form>
           <input type="file" name="file" accept="image/*" onChange={this.handleFileProcessing}/>
         </form>
-        <h1>List of words from the image</h1>
+        <h1>List of lines from the image</h1>
+        {
+          this.state.recognitionProgress > 0 &&
+          <progress max="100" value={this.state.recognitionProgress * 100}/>
+        }
         <ul>
-          {listOfWords}
+          {listOfLines}
         </ul>
       </div>
     );
