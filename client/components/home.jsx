@@ -55,6 +55,12 @@ class Home extends React.Component {
         <form>
           <input type="file" name="file" accept="image/*" onChange={this.handleFileProcessing}/>
         </form>
+        <h2>Users</h2>
+        <ul>
+          <li>
+            <input type="text"/>
+          </li>
+        </ul>
         <h1>List of lines from the image</h1>
         {
           this.state.recognitionProgress > 0 &&
