@@ -8,10 +8,14 @@ class Home extends React.Component {
     super(props);
     this.state = {
       lines: [],
-      recognitionProgress: 0
+      recognitionProgress: 0,
+      currentUser: '',
+      users: []
     };
 
     this.handleFileProcessing = this.handleFileProcessing.bind(this);
+    this.handleAddUser = this.handleAddUser.bind(this);
+    this.handleUserChange = this.handleUserChange.bind(this);
   }
 
   handleFileProcessing(evt) {
@@ -46,21 +50,37 @@ class Home extends React.Component {
     }
   }
 
+  handleUserChange(evt) {
+    this.setState({
+      currentUser: evt.target.value
+    });
+  }
+
+  handleAddUser() {
+    const users = this.state.users.concat(this.state.currentUser);
+    this.setState({
+      users,
+      currentUser: ''
+    });
+    console.log(this.state);
+  }
+
   render() {
     const listOfLines = this.state.lines.map((line, idx) => {
       return <li key={`line-${idx}`}>{line.text}</li>;
     });
+    console.log(this.state);
     return (
       <div>
         <form>
           <input type="file" name="file" accept="image/*" onChange={this.handleFileProcessing}/>
         </form>
         <h2>Users</h2>
-        <ul>
-          <li>
-            <input type="text"/>
-          </li>
-        </ul>
+        <form onSubmit={this.handleAddUser} name="userForm">
+          <input type="text" name="user" value={this.state.currentUser} onChange={this.handleUserChange}/>
+          <button type="submit">+</button>
+        </form>
+
         <h1>List of lines from the image</h1>
         {
           this.state.recognitionProgress > 0 &&
@@ -69,6 +89,15 @@ class Home extends React.Component {
         <ul>
           {listOfLines}
         </ul>
+
+        { this.state.users &&
+          <div>
+            <h3>Users</h3>
+            <ul>
+              {this.state.users.map((user) => <li>{user}</li>)}
+            </ul>
+          </div>
+        }
       </div>
     );
   }
