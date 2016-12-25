@@ -1,7 +1,0 @@
-{
-  "plugins": {
-    "scanner": {
-      "module": "./server/plugins/scanner"
-    }
-  }
-}

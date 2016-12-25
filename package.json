@@ -1,58 +1,38 @@
 {
   "name": "scanner",
-  "version": "0.0.1",
-  "description": "Scanner for receipts",
-  "homepage": "",
-  "author": {
-    "name": "Paul Grock",
-    "email": "paulgrock@gmail.com",
-    "url": "paulgrock.com"
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next"
   },
-  "contributors": [],
-  "files": [
-    "server",
-    "client",
-    "test"
-  ],
-  "main": "server/index.js",
-  "keywords": [],
   "repository": {
     "type": "git",
-    "url": "paulgrock/scanner"
+    "url": "git+https://github.com/paulgrock/image-scanner.git"
   },
-  "license": "MIT",
-  "engines": {
-    "node": "^4.x.x || ^6.x.x",
-    "npm": ">= 3.x.x"
+  "keywords": [],
+  "author": "Paul Grock <paulgrock@gmail.com> (http://paulgrock.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulgrock/image-scanner/issues"
   },
-  "scripts": {
-    "start": "if test \"$NODE_ENV\" = \"production\"; then npm run prod; else gulp dev; fi",
-    "test": "gulp test",
-    "coverage": "gulp check",
-    "prod": "echo 'Starting standalone server in PROD mode'; node .",
-    "heroku-postbuild": "gulp build"
-  },
+  "homepage": "https://github.com/paulgrock/image-scanner#readme",
   "dependencies": {
-    "bluebird": "^3.4.6",
-    "electrode-archetype-react-app": "^1.0.0",
-    "electrode-confippet": "^1.0.0",
-    "electrode-redux-router-engine": "^1.2.2",
-    "electrode-server": "^1.0.0",
-    "electrode-static-paths": "^1.0.0",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.10.1",
+    "multer": "^1.2.1",
+    "next": "^2.0.0-beta.2",
     "tesseract.js": "^1.0.10"
   },
   "devDependencies": {
-    "@types/hapi": "^13.0.36",
     "@types/react": "^0.14.41",
-    "@types/react-router": "^2.0.38",
     "@types/redux": "^3.6.31",
-    "electrode-archetype-react-app-dev": "^1.0.0",
     "eslint": "^3.8.0",
     "eslint-config-xo": "^0.17.0",
     "eslint-config-xo-react": "^0.10.0",
     "eslint-plugin-react": "^6.4.1",
-    "gulp": "^3.9.1"
+    "nodemon": "^1.11.0"
   }
 }
