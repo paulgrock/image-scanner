@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next"
+    "prod": "node server",
+    "start": "if test \"$NODE_ENV\" = \"production\"; then npm run prod; else nodemon server; fi"
   },
   "repository": {
     "type": "git",
