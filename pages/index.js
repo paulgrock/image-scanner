@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
 import 'isomorphic-fetch';
 import Tesseract from 'tesseract.js';
 
@@ -17,8 +16,22 @@ class Home extends React.Component {
   handleFileProcessing(evt) {
     const files = evt.currentTarget.files;
     if (files.length > 0) {
-      const formData = new FormData();
-      formData.append('file', files[0]);
+      // const formData = new FormData();
+      // formData.append('file', files[0]);
+
+      // fetch('/scanner', {
+      //   method: 'POST',
+      //   body: formData
+      // })
+      //   .then((res) => {
+      //     return res.json();
+      //   })
+      //   .then((json) => {
+      //     this.setState({
+      //       words: json
+      //     });
+      //   })
+      //   .catch((err) => console.error(err));
       Tesseract.recognize(files[0])
         .progress((message) => {
           if (message.status === 'recognizing text') {
@@ -52,7 +65,7 @@ class Home extends React.Component {
     });
     return (
       <div>
-        <form>
+        <form action="/scanner" method="POST" encType="multipart/form-data">
           <input type="file" name="file" accept="image/*" onChange={this.handleFileProcessing}/>
         </form>
         <h2>Users</h2>
@@ -74,4 +87,4 @@ class Home extends React.Component {
   }
 }
 
-export default connect()(Home);
+export default Home;
