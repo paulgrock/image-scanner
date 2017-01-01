@@ -16,44 +16,46 @@ class Home extends React.Component {
   handleFileProcessing(evt) {
     const files = evt.currentTarget.files;
     if (files.length > 0) {
-      const formData = new FormData();
-      formData.append('file', files[0]);
+      // const formData = new FormData();
+      // formData.append('file', files[0]);
 
-      fetch('/scanner', {
-        method: 'POST',
-        body: formData
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          this.setState({
-            words: json
-          });
-        })
-        .catch((err) => console.error(err));
-      // Tesseract.recognize(files[0])
-      //   .progress((message) => {
-      //     if (message.status === 'recognizing text') {
-      //       this.setState({
-      //         recognitionProgress: message.progress
-      //       });
-      //     }
+      // fetch('/scanner', {
+      //   method: 'POST',
+      //   body: formData
+      // })
+      //   .then((res) => {
+      //     return res.json();
       //   })
-      //   .then((result) => {
-      //     const lines = result.lines.map((line) => {
-      //       const prices = line.words.filter((word) => !isNaN(Number(word.text)));
-      //       console.log(prices);
-      //       return {
-      //         text: line.text,
-      //         choices: line.choices,
-      //         confidence: line.confidence,
-      //         baseline: line.baseline,
-      //         bbox: line.bbox
-      //       };
-      //     });
+      //   .then((json) => {
       //     this.setState({
-      //       lines
+      //       words: json
       //     });
-      //   });
+      //   })
+      //   .catch((err) => console.error(err));
+      Tesseract.recognize(files[0])
+        .progress((message) => {
+          if (message.status === 'recognizing text') {
+            this.setState({
+              recognitionProgress: message.progress
+            });
+          }
+        })
+        .then((result) => {
+          const lines = result.lines.map((line) => {
+            const prices = line.words.filter((word) => !isNaN(Number(word.text)));
+            console.log(prices);
+            return {
+              text: line.text,
+              choices: line.choices,
+              confidence: line.confidence,
+              baseline: line.baseline,
+              bbox: line.bbox
+            };
+          });
+          this.setState({
+            lines
+          });
+        });
     }
   }
 
@@ -63,7 +65,7 @@ class Home extends React.Component {
     });
     return (
       <div>
-        <form>
+        <form action="/scanner" method="POST" encType="multipart/form-data">
           <input type="file" name="file" accept="image/*" onChange={this.handleFileProcessing}/>
         </form>
         <h2>Users</h2>

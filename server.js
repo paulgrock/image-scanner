@@ -23,9 +23,7 @@ app.prepare()
     });
 
     server.post('/scanner', upload.single('file'), (req, res) => {
-      console.log(req.file);
-      console.log(typeof req.file);
-      translateImage(req.file)
+      translateImage(req.file.buffer)
         .then((words) => {
           console.log(words);
           res.send(words);
