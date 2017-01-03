@@ -14,6 +14,7 @@
     "extends": ["xo/esnext", "xo-react/space"],
     "rules": {
         "indent": ["error", 2],
-        "arrow-parens": [2, "always"]
+        "arrow-parens": [2, "always"],
+        "react/jsx-space-before-closing": [2, "always"]
     }
 }
