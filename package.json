@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prod": "node server",
-    "start": "if test \"$NODE_ENV\" = \"production\"; then npm run prod; else nodemon server; fi"
+    "start": "if test \"$NODE_ENV\" = \"production\"; then npm run prod; else nodemon --inspect server; fi"
   },
   "repository": {
     "type": "git",
