@@ -4,7 +4,7 @@ class UserSelect extends React.Component {
   constructor(props) {
     super(props);
 
-    this.defaultValue = 'select-user';
+    this.defaultValue = 'unassigned';
 
     this.state = {
       selectedUserId: this.defaultValue
@@ -14,17 +14,11 @@ class UserSelect extends React.Component {
   }
 
   handleUserChange(evt) {
-    let prevUserId = this.state.selectedUserId;
-    if (evt.target.value === this.defaultValue) {
-      this.setState({
-        selectedUserId: this.defaultValue
-      });
-      return;
-    }
-    if (this.state.selectedUserId === this.defaultValue) {
-      prevUserId = undefined;
-    }
+    let prevUserId;
     const selectedUserId = evt.target.value;
+    if (this.state.selectedUserId !== this.defaultValue) {
+      prevUserId = this.state.selectedUserId;
+    }
     this.setState({
       selectedUserId
     });
@@ -34,7 +28,7 @@ class UserSelect extends React.Component {
   render() {
     return (
       <select onChange={this.handleUserChange} value={this.state.selectedUserId}>
-        <option value="select-user">Select User</option>
+        <option value={this.defaultValue}>Select User</option>
         {this.props.users.map((user) => <option key={user.id} value={user.id}>{user.name}</option>)}
       </select>
     );

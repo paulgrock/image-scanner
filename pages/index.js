@@ -12,6 +12,7 @@ class Home extends React.Component {
       lines: [],
       recognitionProgress: 0,
       total: 0,
+      unassignedTotal: 0,
       users: []
     };
 
@@ -75,7 +76,8 @@ class Home extends React.Component {
           });
           this.setState({
             lines,
-            total
+            total,
+            unassignedTotal: total
           });
         });
     }
@@ -94,6 +96,12 @@ class Home extends React.Component {
     });
   }
 
+  getAssignedTotal(users) {
+    return users.reduce((prev, curr) => {
+      return prev + curr.total;
+    }, 0);
+  }
+
   handleDeleteLine(id) {
     let total = 0;
     const lines = this.state.lines.filter((line) => {
@@ -109,10 +117,13 @@ class Home extends React.Component {
       return this.updateUser(user, newLines);
     });
 
+    const assignedTotal = this.getAssignedTotal(users);
+
     this.setState({
       lines,
       total,
-      users
+      users,
+      unassignedTotal: total - assignedTotal
     });
   }
 
@@ -128,7 +139,7 @@ class Home extends React.Component {
     });
   }
 
-  calculateTotal(user) {
+  calculateUserTotal(user) {
     return user.lines.reduce((prev, curr) => {
       return Number(prev) + Number(curr.price);
     }, 0);
@@ -139,7 +150,7 @@ class Home extends React.Component {
       lines
     });
 
-    const newTotal = this.calculateTotal(user);
+    const newTotal = this.calculateUserTotal(user);
     return Object.assign({}, user, {
       total: newTotal
     });
@@ -160,8 +171,11 @@ class Home extends React.Component {
       return user;
     });
 
+    const assignedTotal = this.getAssignedTotal(users);
+
     this.setState({
-      users
+      users,
+      unassignedTotal: this.state.total - assignedTotal
     });
   }
 
@@ -197,7 +211,7 @@ class Home extends React.Component {
             }
             <tr>
               <td>Unassigned</td>
-              <td>{this.state.total}</td>
+              <td>{this.state.unassignedTotal}</td>
             </tr>
           </thead>
         </table>
