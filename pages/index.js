@@ -6,21 +6,12 @@ import Line from './bill-line';
 import UserInput from './user-input';
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      lines: [],
-      recognitionProgress: 0,
-      total: 0,
-      unassignedTotal: 0,
-      users: []
-    };
-
-    this.handleFileProcessing = this.handleFileProcessing.bind(this);
-    this.handleDeleteLine = this.handleDeleteLine.bind(this);
-    this.handleAddUser = this.handleAddUser.bind(this);
-    this.handleUserChange = this.handleUserChange.bind(this);
-    this.handleLinePriceChange = this.handleLinePriceChange.bind(this);
+  state = {
+    lines: [],
+    recognitionProgress: 0,
+    total: 0,
+    unassignedTotal: 0,
+    users: []
   }
 
   getLinePrice(line) {
@@ -28,7 +19,7 @@ class Home extends React.Component {
                 .filter((word) => !isNaN(Number(word.text)));
   }
 
-  handleFileProcessing(evt) {
+  handleFileProcessing = (evt) => {
     const files = evt.currentTarget.files;
     if (files.length > 0) {
       // const formData = new FormData();
@@ -83,7 +74,7 @@ class Home extends React.Component {
     }
   }
 
-  handleLinePriceChange(id, newPrice) {
+  handleLinePriceChange = (id, newPrice) => {
     const lines = this.state.lines.map((line) => {
       if (line.id === id) {
         line.price = newPrice;
@@ -91,9 +82,24 @@ class Home extends React.Component {
       return line;
     });
 
-    this.setState({
-      lines
-    });
+    const users = this.state.users.map((user) => {
+      const newLines = user.lines.map((line) => {
+        if (line.id === id) {
+          line.price = newPrice;
+        }
+        return line;
+      });
+      return this.updateUser(user, newLines);
+    })
+
+    const assignedTotal = this.getAssignedTotal(users);
+
+
+    this.setState((prevState, props) => ({
+      users,
+      lines,
+      unassignedTotal: prevState.total - assignedTotal
+    }));
   }
 
   getAssignedTotal(users) {
@@ -102,7 +108,7 @@ class Home extends React.Component {
     }, 0);
   }
 
-  handleDeleteLine(id) {
+  handleDeleteLine = (id) => {
     let total = 0;
     const lines = this.state.lines.filter((line) => {
       if (line.id !== id) {
@@ -127,7 +133,7 @@ class Home extends React.Component {
     });
   }
 
-  handleAddUser(name) {
+  handleAddUser = (name) => {
     const users = this.state.users.concat({
       name,
       total: 0,
@@ -156,7 +162,7 @@ class Home extends React.Component {
     });
   }
 
-  handleUserChange(newUserId, oldUserId, line) {
+  handleUserChange = (newUserId, oldUserId, line) => {
     const users = this.state.users.map((user) => {
       if (user.id === newUserId) {
         const newLines = user.lines.concat(line);
@@ -173,10 +179,10 @@ class Home extends React.Component {
 
     const assignedTotal = this.getAssignedTotal(users);
 
-    this.setState({
+    this.setState((prevState, props) => ({
       users,
-      unassignedTotal: this.state.total - assignedTotal
-    });
+      unassignedTotal: prevState.total - assignedTotal
+    }));
   }
 
   render() {

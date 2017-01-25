@@ -2,14 +2,8 @@ import React from 'react';
 import UserSelect from './user-select';
 
 class Line extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       price: this.props.line.price
-    };
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handlePriceChange = this.handlePriceChange.bind(this);
-    this.handleUserChange = this.handleUserChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -18,18 +12,18 @@ class Line extends React.Component {
     }
   }
 
-  handleDelete() {
+  handleDelete = () => {
     this.props.onDelete(this.props.line.id);
   }
 
-  handlePriceChange(evt) {
+  handlePriceChange = (evt) => {
     this.setState({
       price: evt.target.value
     });
     this.props.onPriceChange(this.props.line.id, evt.target.value);
   }
 
-  handleUserChange(userId, previousUserId) {
+  handleUserChange = (userId, previousUserId) => {
     this.setState({
       belongsToId: userId
     });
