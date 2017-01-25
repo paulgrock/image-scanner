@@ -1,19 +1,13 @@
 import React from 'react';
 
 class UserSelect extends React.Component {
-  constructor(props) {
-    super(props);
+  defaultValue = 'unassigned';
 
-    this.defaultValue = 'unassigned';
-
-    this.state = {
-      selectedUserId: this.defaultValue
-    };
-
-    this.handleUserChange = this.handleUserChange.bind(this);
+  state = {
+    selectedUserId: this.defaultValue
   }
 
-  handleUserChange(evt) {
+  handleUserChange = (evt) => {
     let prevUserId;
     const selectedUserId = evt.target.value;
     if (this.state.selectedUserId !== this.defaultValue) {
